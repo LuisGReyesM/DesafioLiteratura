@@ -11,14 +11,18 @@ public class ConsumoApi {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .GET()
                 .build();
+        HttpResponse<String> response = null;
         try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Código de estado: " + response.statusCode());
-            return response.body();
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException("Error al consumir la API", e);
+            response = client
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
+        String json = response.body();
+        return json;
     }
 }
