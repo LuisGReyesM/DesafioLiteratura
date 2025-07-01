@@ -1,12 +1,12 @@
-package com.aluracursos.literatura.model;
+package com.aluracursos.literatura.dto;
 
-import com.aluracursos.literatura.dto.LibroDTO;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RespuestaLibros {
+public class RespuestaLibrosDTO {
     private List<LibroDTO> results;
 
     public List<LibroDTO> getResults() {
