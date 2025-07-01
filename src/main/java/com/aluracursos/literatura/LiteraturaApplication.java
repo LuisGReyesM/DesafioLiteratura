@@ -62,7 +62,7 @@ public class LiteraturaApplication implements CommandLineRunner {
 				case "3":
 					System.out.print("Ingrese el idioma (ej: en, es, fr): ");
 					String idioma = scanner.nextLine();
-					libroController.mostrarLibrosPorIdioma(idioma);
+					libroController.mostrarLibrosPorIdiomaDesdeBD(idioma);
 					break;
 				case "4":
 					libroController.mostrarAutores();

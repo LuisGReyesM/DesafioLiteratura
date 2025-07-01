@@ -23,14 +23,14 @@ public class LibroController {
     private final LibroService libroService;
     private final String URL_BASE = "https://gutendex.com/books/?search=";
     private final List<Libro> librosBuscados = new ArrayList<>();
-    @Autowired
     private AutorService autorService;
 
-    public LibroController(ConsumoApi consumoApi, ConvierteDatos conversor, LibroView libroView, LibroService libroService) {
+    public LibroController(ConsumoApi consumoApi, ConvierteDatos conversor, LibroView libroView, LibroService libroService,AutorService autorService) {
         this.consumoApi = consumoApi;
         this.conversor = conversor;
         this.libroView = libroView;
         this.libroService = libroService;
+        this.autorService = autorService;
     }
 
     public void buscarLibroPorTitulo(String titulo) {
@@ -55,13 +55,24 @@ public class LibroController {
         libroView.mostrarListadoLibros(librosBuscados);
     }
 
-    public void mostrarLibrosPorIdioma(String idioma) {
+    /*public void mostrarLibrosPorIdioma(String idioma) {
         List<Libro> filtrados = librosBuscados.stream()
                 .filter(l -> l.getIdiomas().contains(idioma))
                 .toList();
-
         libroView.mostrarListadoLibros(filtrados);
+    }*/
+
+    public void mostrarLibrosPorIdiomaDesdeBD(String idioma) {
+        List<Libro> libros = libroService.obtenerLibrosPorIdioma(idioma);
+
+        libros.stream()
+                .forEach(libro -> System.out.println(
+                        "Título: " + libro.getTitulo() +
+                                ", Idiomas: " + libro.getIdiomas() +
+                                ", Descargas: " + libro.getCantidadDescargas()
+                ));
     }
+
 
     public void mostrarAutores() {
         List<Autor> autores = autorService.listarAutores();

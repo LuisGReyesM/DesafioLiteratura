@@ -23,16 +23,27 @@ public class LibroService {
     }
 
     public Libro guardarLibroConAutor(Libro libro) {
+        // Verifica si el libro ya existe por su título
+        Optional<Libro> libroExistente = libroRepository.findByTitulo(libro.getTitulo());
+        if (libroExistente.isPresent()) {
+            return libroExistente.get();
+        }
+
+        // Verifica si el autor ya existe
         Autor autor = libro.getAutor();
         Optional<Autor> autorExistente = autorRepository.findByNombre(autor.getNombre());
         if (autorExistente.isPresent()) {
-           libro.setAutor(autorExistente.get());
+            libro.setAutor(autorExistente.get());
         } else {
             Autor autorGuardado = autorRepository.save(autor);
             libro.setAutor(autorGuardado);
         }
 
         return libroRepository.save(libro);
+    }
+    // Nuevo método para obtener libros por idioma desde la base de datos
+    public List<Libro> obtenerLibrosPorIdioma(String idioma) {
+        return libroRepository.buscarLibrosPorIdioma(idioma);
     }
 
 
